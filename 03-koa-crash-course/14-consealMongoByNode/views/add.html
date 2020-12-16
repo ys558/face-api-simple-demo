@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>add user</title>
+</head>
+<body>
+    <h3>增加学生</h3>
+    <form action="/doAdd" method="post">
+        <p>
+            用户名：<input type="text" name="username" placeholder="请输入用户名">
+        </p>
+        <p>
+            年&nbsp;&nbsp;&nbsp;龄：
+            <input type="number" value="age" name="age">
+        </p>
+        <p>
+            性别：
+            <label>
+                <input type="radio" name="gender" value="M">男
+            </label>
+            <label>
+                <input type="radio" name="gender" value="F">女
+            </label>
+        </p>
+        <p>
+            <button>Submit</button>
+        </p>
+    </form>
+</body>
+</html>

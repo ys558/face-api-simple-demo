@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>get cookie in koa</h1>
+    <hr>
+    <h2>
+        <%= userinfo %>
+        <hr>
+        {{ userinfo }}
+    </h2>
+    <script>
+        // 1.5 后端设置了cookie：
+        // httpOnly: false，
+        // 表示设置了客户端能访问cookie，
+        // 所以，控制台输出：
+        // userinfo=zhangsan
+        console.log(
+            document.cookie
+        )
+    </script>
+</body>
+</html>

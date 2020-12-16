@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    2.1&nbsp;循环数据：
+    <ul>
+        <% for(let i=0; i<list.length; i++) { %>
+            <li><%= list[i] %></li>
+        <% } %>
+    </ul>
+    2.2&nbsp;页面引入外部文件：
+    <%- include ./header.ejs %>
+    2.3&nbsp;原样输出后端数据，如：<br>
+    <%= a %>
+    <br>
+    <%- a1 %>
+    3. 公共数据放在state里，任何模板都能用，如:<br>
+    <%= userinfo.name %>
+</body>
+</html>
