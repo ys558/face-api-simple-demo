@@ -1,6 +1,7 @@
 const express = require('express')
 const { graphqlHTTP } = require('express-graphql')
 const { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt, GraphQLNonNull } = require('graphql')
+// data for query:
 const { books, authors } = require('./data')
 const app = express()
 
@@ -13,6 +14,7 @@ const BookType = new GraphQLObjectType({
     authorId: { type: GraphQLNonNull(GraphQLInt)},
     author: {
       type: AuthorType,
+      // query book by authorId
       resolve: book => {
         return authors.find( author => author.id === book.authorId )
       }
@@ -26,6 +28,7 @@ const AuthorType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLNonNull(GraphQLInt) },
     name: { type: GraphQLNonNull(GraphQLString) },
+    // query author by book's id
     books: {
       type: new GraphQLList(BookType),
       resolve: author => {
@@ -35,6 +38,7 @@ const AuthorType = new GraphQLObjectType({
   })
 })
 
+// RootQuery mix books-->author and author-->book
 const RootQueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'Root Query',
@@ -52,7 +56,7 @@ const RootQueryType = new GraphQLObjectType({
   })
 })
 
-const BookSchema = new GraphQLSchema({ query: RootQueryType })
+const BookSchema = new  GraphQLSchema({ query: RootQueryType })
 
 app.use('/books', graphqlHTTP({
   schema: BookSchema,
