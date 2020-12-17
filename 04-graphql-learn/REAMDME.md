@@ -1,4 +1,5 @@
 1.  file '01helloworld.js' show how to run the graphql on http server
+    
     1.1 according to the file, run server on port 5000, open the browser, you may see the page of graphql default pages
 
     1.2 input the query sentence as follow, may see that message of 'hello world'
@@ -44,7 +45,7 @@
     }
     ```
     
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/3.3.gif)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/3.3.png)
 
     ```js
     {
@@ -56,4 +57,66 @@
       }
     }
     ```
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/3.2.gif)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/3.2.png)
+
+4. 04singleQuery.js, query one book by book id (by params, as below type) and its author
+    ```js
+    {
+      book(id: 4) {
+        name
+        author {
+          name
+        }
+      }
+    }
+    ```
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/4.png)
+
+    4.1 query one author by author id,
+    ```js
+    {
+      author(id: 1) {
+        name
+      }
+    }
+    ```
+    and query one author by author id and this author's all book
+    ```js
+    {
+      author(id: 1) {
+        name
+        books {
+          name
+        }
+      }
+    }
+    ```
+    ![](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/4.2.png)
+
+    4.2 query all books with author name
+    ```js
+    {
+      books {
+        name
+        author {
+          name
+        }
+      }
+    }
+    ```
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/4.1.png)
+    
+    and also query all authors with their all books' name
+    ```js
+    {
+      authors {
+        name
+        books {
+          name
+        }
+      }
+    }
+    ```
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/4.1.1.png)
+    
+
