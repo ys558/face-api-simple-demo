@@ -77,27 +77,11 @@ const RootMutationType = new GraphQLObjectType({
       type: BookType,
       description: 'Add a book',
       args: {
+        // here can change the name of author and authorId
         name: { type: GraphQLNonNull(GraphQLString) },
         authorId: { type: GraphQLNonNull(GraphQLInt) }
       },
       resolve: ( parent, args ) => {
-        /* input mutation below in browser: 
-        mutation {
-          addBook( name: "New Name", authorId: 1) {
-            id,
-            name
-          }
-        }
-        result:
-        {
-          "data": {
-            "addBook": {
-              "id": 9,
-              "name": "New Name"
-            }
-          }
-        }
-        */
         const book = { id: books.length + 1, name: args.name, authorId: args.authorId }
         books.push(book)
         return book
@@ -122,6 +106,7 @@ const RootMutationType = new GraphQLObjectType({
 
 const Schema = new GraphQLSchema({
   query: RootQueryType,
+  // mutationType means that via POST, DELETE, PUT etc method on rest api to modified record:
   mutation: RootMutationType
 })
 

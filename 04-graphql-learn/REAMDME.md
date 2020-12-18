@@ -31,7 +31,7 @@
     
     3.1 in here, we may click here to see the relationship of the query of book-->authorId and books' id --> author
 
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/3.1.gif)
+    [here](https://github.com/ys558/js-simple-demo/blob/master/04-graphql-learn/img-MD/3.1.gif) is a gif picture show how to check up the field relationship in page
 
     3.2 authors --> books
     ```js
@@ -119,4 +119,48 @@
     ```
     ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/4.1.1.png)
     
+5. mutationType, change record on POST, DELETE, PUT etc method to change record by rest api
+  
+    5.1 add `mutation: RootMutationType` in code
+    ```js
+    const Schema = new GraphQLSchema({
+      query: RootQueryType,
+      mutation: RootMutationType
+    })
+    ```
+    click the 'Docs' on query page, we may see 2 mutation functions as below: 
+
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/5.png)
+
+    query the books, the record was added:
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/5.4.png)
+
+
+    and input the query sentence on query page:
+    ```js
+    mutation {
+      addBook(name: "new book", authorId: 1) {
+        id
+        name
+      }
+    }
+    ```
+    and the results:
+
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/5.1.png)
+
+    same process as changing author:
+    ```js
+    mutation {
+      addAuthor(name: "new author") {
+        name
+      }
+    }
+    ```
+    results:
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/5.2.png)
+
+    we may query authors, the record was added
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/js-simple-demo/master/04-graphql-learn/img-MD/5.3.png)
+
 
