@@ -7,13 +7,12 @@ function App() {
   const { books, hasMore, loading, error } = useBookSearch(query, pageNumber)
 
 
-  // useRef
   const observer = useRef()
   const lastBookElementRef = useCallback(node => {
     if (loading) return
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver(entries => {
-      console.log(entries)
+      // detected is it the last one:
       if( entries[0].isIntersecting && hasMore ) {
         setPageNumber(prevPageNumber => prevPageNumber + 1)
       }
