@@ -216,3 +216,130 @@ router.get('/', (req, res) => {
 ```
 
 其余API的swagger配置见[`books.js`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/server/routes/books.js)
+
+## client模块:
+
+**react-query hook的官网: https://react-query.tanstack.com/**
+
+编写前端界面:  
+
+初始化项目:
+```shell
+npx create-react-app client && cd client
+```
+
+安装依赖并运行: 
+```shell
+yarn add react-query react-router-dom react-hook-from @rebass/forms @rebass/preset styled-components react-loader-spinner
+yarn start
+```
+
+修改`src/client.js` 文件如下:
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import App from './App'
+import { BrowserRouter } from "react-router-dom"
+import { ThemeProvider } from "styled-components"
+import preset from "@rebass/preset"
+
+// 核心部分: react-query
+import { QueryClientProvider, QueryClient } from "react-query"
+// 实例化queryClient
+const queryClient = new QueryClient()
+
+ReactDOM.render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={preset}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+)
+```
+
+创建 `src/api.js`, 函数`getAllBooks`用于对接backend返回的数据, 如下:
+```js
+export const getAllBooks = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}/books`)
+  if (!response.ok) throw new Error('something wrong')
+
+  return response.json()
+}
+```
+上面的`${process.env.REACT_APP_API_SERVER}`部分可以创建另一个文件`src/.env`, 如下:
+```
+REACT_APP_API_SERVER = http://localhost:4000
+```
+
+制作通用组件导航栏[`src/shared/NavBar.jsx`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/client/src/shared/NavBar.jsx), 并封装一通用组件[`src/shared/Container.jsx`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/client/src/shared/Container.jsx), 非核心代码, 这里不贴出
+
+创建`src/BookList/index.js`和`src/BookList/BookList.jsx`, 如下:
+
+`src/BookList/index.js`:
+```js
+export * from './BooksList'
+```
+
+`src/BookList/BookList.jsx`:
+```jsx
+import { useQuery } from 'react-query'
+import { Flex } from 'rebass'
+import { getAllBooks } from '../api'
+import { Container } from '../shared/Container'
+import Loader from 'react-loader-spinner'
+
+export const BooksList = () => {
+  const { data, error, isLoading, isError } = useQuery('books', getAllBooks)
+
+  if (isLoading) return <Container>
+    <Flex>
+      <Loader type='ThreeDots' color='#ccc' height={30} />
+    </Flex>
+  </Container>
+
+  if (isError) return <span>
+    Error: {error.message}
+  </span>
+
+  return <Container>
+    <Flex flexDirection='column' alignItems='center'>
+    {
+      data.map(({author, title, id}) => (
+        <div key={id}>
+          {author} -- {title}
+        </div>
+      ))
+    }
+    </Flex>
+  </Container>
+}
+
+```
+
+修改`src/App.js`文件如下: 将`BookList`导入`App.js`, 如下:
+```js
+import { Switch, Route } from 'react-router-dom'
+import { BooksList } from './BooksList'
+
+function App() {
+  return (
+    <>
+      <Switch>
+        <Route path='/'>
+          <BooksList />
+        </Route>
+      </Switch>
+    </>
+  )
+}
+
+export default App;
+```
+
+当然, 其余的模块[`CreateBook`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/client/src/CreateBook/), [`UpdateBook`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/client/src/UpdateBook/)也是同样重复上述操作再导入`App.js`里
