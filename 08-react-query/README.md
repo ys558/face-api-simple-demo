@@ -343,3 +343,171 @@ export default App;
 ```
 
 当然, 其余的模块[`CreateBook`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/client/src/CreateBook/), [`UpdateBook`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/client/src/UpdateBook/)也是同样重复上述操作再导入`App.js`里
+
+修改每个条目的样式, 创建[`src/BookList/BookItem.jsx`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/client/src/BookList/BookItem.jsx), 并在[`src/BookList/BookList.jsx`](https://github.com/ys558/js-simple-demo/tree/master/08-react-query/client/src/BookList/BookList.jsx) 里将
+
+```html
+<div key={id}>
+  {author} -- {title}
+</div>
+```
+
+替换为
+```jsx
+import { BookItem } from './BookItem'
+
+<BookItem author={author} title={title} id={id} key={id}/>
+```
+
+添加 `DELETE` 方法:
+
+在`src/api.js`里增加一个 `removeBook` 的方法
+
+```js
+export const removeBook = async id => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}/books/${id}`, {
+    method: 'DELETE'
+  })
+
+  if (!response.ok) throw new Error(response.json().message)
+  
+  return true
+}
+```
+
+而 `src/BooksList/BookItem.jsx` 修改如下: 
+
+```js
+import { Flex, Text, Button, Link as StyledLink } from 'rebass/styled-components'
+import { Link } from 'react-router-dom'
+
+// react-query DELETE方法的核心:
+import { useMutation, useQueryClient } from 'react-query'
+import { removeBook } from '../api'
+import Loader from 'react-loader-spinner'
+
+export const BookItem = ({ author, title, id }) => {
+  // 官方文档: https://react-query.tanstack.com/reference/useMutation
+  const queryClient = useQueryClient()
+  const { mutateAsync, isLoading } = useMutation(removeBook)
+
+  const remove = async () => {
+    await mutateAsync(id)
+    queryClient.invalidateQueries('books')
+  }
+
+  return <Flex p={3} width="100%" alignItems='center'>
+    <Link component={StyledLink} to={`/update-book/${id}`} mr="auto">
+      { title }
+    </Link>
+    <Text>{author}</Text>
+    <Button ml="3" onClick={remove}>
+      { isLoading ? <Loader type='ThreeDots' color='#fff' height={10} />: 'Remove' }
+    </Button>
+  </Flex>
+}
+```
+
+添加局部更新 `PUT` 方法: 
+
+在`src/api.js`里增加一个 `getBook` 的函数, 通过id, 获取对应的book
+
+```js
+export const getBook = async ({ queryKey }) => {
+  /* eslint-disable no-unused-vars */
+  const [ _key, { id } ] = queryKey
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}/books/${id}`)
+
+  if (!response.ok) throw new Error(response.json().message)
+
+  return response.json()
+}
+```
+
+再增加一个`updateBook` 函数, 用于更新对应的book
+
+```js
+export const updateBook = async ({ id,  ...data }) => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}/books/${id}`, {
+    method: "PUT",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+
+  if (!response.ok) throw new Error(response.json().message)
+
+  return response.json()
+}
+```
+
+添加 `src/shared/BookForm.jsx` 的页面:
+
+```js
+import { Box, Button } from 'rebass/styled-components'
+import { Label, Input } from '@rebass/forms'
+import { useForm } from 'react-hook-form'
+import Loader from 'react-loader-spinner'
+
+export const BookForm = ({ defaultValues, onFormSubmit, isLoading }) => {
+  const { register, handleSubmit } = useForm({ defaultValues })
+  const onSubmit = handleSubmit( data => {
+    onFormSubmit(data)
+  })
+
+  return <form onSubmit={onSubmit}>
+    <Box sx={{ marginBottom : 3 }}>
+      <Label htmlFor="title">Title</Label>
+      <Input ref={register} id='title' name='title' type='text' />
+    </Box>
+    <Box sx={{ marginBottom : 3 }}>
+      <Label htmlFor='author'>Author</Label>
+      <Input ref={register} id='author' name='author' type='text' />
+    </Box>
+    <Button>
+      { isLoading ? <Loader type='ThreeDots' color='#fff' height={10} /> : 'Submit' }
+    </Button>
+  </form>
+} 
+```
+
+修改`src/UpdateBook.jsx`, 修改如下:
+
+```jsx
+import Loader from "react-loader-spinner"
+import { useMutation, useQuery } from "react-query"
+import { useHistory, useParams } from "react-router-dom"
+import { Box, Flex, Heading } from "rebass/styled-components"
+import { getBook, updateBook } from "../api"
+import { BookForm, Container } from "../shared"
+
+export const UpdateBook = () => {
+  const { id } = useParams()
+  const history = useHistory()
+  const { data, error, isLoading, isError } = useQuery(['book', {id}], getBook)
+
+  const { mutateAsync, isLoading: isMutating } = useMutation(updateBook)
+  const onFormSubmit = async data => {
+    await mutateAsync({ ...data, id })
+    history.push('/')
+  }
+
+  if ( isLoading ) return <Container>
+      <Flex>
+        <Loader type='ThreeDots' color='#ccc' height={30} />
+      </Flex>
+    </Container>
+
+  if ( isError ) return <Container>
+    <Flex py='5' justifyContent='center'>
+      Error: {error.message}
+    </Flex>
+  </Container>
+
+  return <Container>
+    <Box sx={{ py: 3 }}>
+      <Heading sx={{ marginBottom: 3 }}>Update Book</Heading>
+      <BookForm defaultValues={data} onFormSubmit={onFormSubmit} isLoading={isMutating} />
+    </Box>
+  </Container>
+}
+```

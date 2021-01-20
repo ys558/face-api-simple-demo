@@ -4,6 +4,8 @@ import { getAllBooks } from '../api'
 import { Container } from '../shared/Container'
 import Loader from 'react-loader-spinner'
 
+import { BookItem } from './BookItem'
+
 export const BooksList = () => {
   const { data, error, isLoading, isError } = useQuery('books', getAllBooks)
 
@@ -21,9 +23,7 @@ export const BooksList = () => {
     <Flex flexDirection='column' alignItems='center'>
     {
       data.map(({author, title, id}) => (
-        <div key={id}>
-          {author} -- {title}
-        </div>
+        <BookItem author={author} title={title} id={id} key={id}/>
       ))
     }
     </Flex>
