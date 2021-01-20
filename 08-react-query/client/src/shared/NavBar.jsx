@@ -13,7 +13,7 @@ export const NavBar = () => {
             React Query CRUD
           </Link>
           <Box mx="auto"/>
-          <Link component={StyledLink} variant='nav' to='/'>
+          <Link component={StyledLink} variant='nav' to='/create-book'>
             + Add new book
           </Link>
         </Flex>

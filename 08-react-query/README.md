@@ -470,7 +470,7 @@ export const BookForm = ({ defaultValues, onFormSubmit, isLoading }) => {
 } 
 ```
 
-修改`src/UpdateBook.jsx`, 修改如下:
+修改`src/UpdateBook/UpdateBook.jsx`, 修改如下:
 
 ```jsx
 import Loader from "react-loader-spinner"
@@ -507,6 +507,52 @@ export const UpdateBook = () => {
     <Box sx={{ py: 3 }}>
       <Heading sx={{ marginBottom: 3 }}>Update Book</Heading>
       <BookForm defaultValues={data} onFormSubmit={onFormSubmit} isLoading={isMutating} />
+    </Box>
+  </Container>
+}
+```
+
+增加 `POST` 方法添加一个新书:
+
+在`src/api.js`里增加一个 `createBook` 的函数
+
+```js
+export const createBook = async (data) => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}/books/`, {
+    // method默认GET, 其他方法必须制定, 否则报错:
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+
+  if (!response.ok) throw new Error(response.json().message)
+
+  return response.json()
+}
+```
+
+再创建`src/CreateBook/CreateBook.jsx` 如下
+
+```jsx
+import { useMutation } from "react-query"
+import { useHistory } from "react-router-dom"
+import { Box, Heading } from "rebass"
+import { createBook } from "../api"
+import { BookForm, Container, } from '../shared'
+
+export const CreateBook = () => {
+  const history = useHistory()
+
+  const { mutateAsync, isLoading } = useMutation(createBook)
+  const onFormSubmit = async data => {
+    await mutateAsync(data)
+    history.push('/')
+  }
+
+  return <Container>
+    <Box sx={{ py: 3 }}>
+      <Heading sx={{ marginBottom: 3 }}>Create New Book</Heading>
+      <BookForm onFormSubmit={onFormSubmit} isLoading={isLoading} />
     </Box>
   </Container>
 }
