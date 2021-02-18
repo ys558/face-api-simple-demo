@@ -1,4 +1,5 @@
 import { Product } from '../types.ts';
+import { v4 } from 'https://deno.land/std/uuid/mod.ts'
 
 let products: Product[] = [
     {
@@ -51,8 +52,25 @@ export const getProduct = ({ params, response }: { params: { id: string }, respo
 
 // @desc Add product
 // @route Post /api/v1/product
-export const addProduct = ({ response }: { response: any }) => {
-    response.body = 'add'
+export const addProduct = async ({ request, response }: { request: any, response: any }) => {
+    const body = await request.body()
+
+    if (!request.hasBody) {
+        response.status = 400
+        response.body = {
+            success: false,
+            msg: 'No data'
+        }
+    } else {
+        const product: Product = await body.value
+        product.id = v4.generate()
+        products.push(product)
+        response.status = 201
+        response.body = {
+            success: true,
+            data: product
+        }
+    }
 }
 
 // @desc Add product

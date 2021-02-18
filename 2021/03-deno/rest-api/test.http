@@ -5,6 +5,13 @@ GET http://localhost:5000/api/v1/products/2 HTTP/1.1
 
 ###
 POST http://localhost:5000/api/v1/products HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Product Five",
+    "description" : "this is product 5",
+    "price": 22.99
+}
 
 ###
 PUT http://localhost:5000/api/v1/products/2 HTTP/1.1
