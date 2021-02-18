@@ -99,6 +99,10 @@ export const updateProduct = async ({ params, request, response }: { params: { i
 
 // @desc Delete product
 // @route DELETE /api/v1/product/:id
-export const deleteProduct = ({ response }: { response: any }) => {
-    response.body = 'delete'
+export const deleteProduct = ({ params, response }: { params: { id: string } ,response: any }) => {
+    products = products.filter(p => p.id !== params.id )
+    response.body = {
+        success: true,
+        msg: 'Product removed'
+    }
 }
