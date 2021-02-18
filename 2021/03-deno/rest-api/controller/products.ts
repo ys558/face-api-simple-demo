@@ -2,19 +2,19 @@ import { Product } from '../types.ts';
 
 let products: Product[] = [
     {
-        id:1,
+        id:'1',
         name: 'product one',
         description: 'this is product 1',
         price: 29.99
     },
     {
-        id:2,
+        id:'2',
         name: 'product two',
         description: 'this is product 2',
         price: 49.99
     },
     {
-        id:3,
+        id:'3',
         name: 'product three',
         description: 'this is product 3',
         price: 88.99
@@ -31,9 +31,22 @@ export const getProducts = ({ response }: { response: any }) => {
 }
 
 // @desc Get single product
-// @route GET /api/v1/product
-export const getProduct = ({ response }: { response: any }) => {
-    response.body = 'get'
+// @route GET /api/v1/products/:id
+export const getProduct = ({ params, response }: { params: { id: string }, response: any }) => {
+    const product: Product | undefined = products.find( p => p.id === params.id )
+    if ( product ) {
+        response.status = 200
+        response.body = {
+            success: true,
+            data: product
+        }
+    }else{
+        response.status = 404
+        response.body = {
+            success: false,
+            msg: 'No product found'
+        }
+    }
 }
 
 // @desc Add product
