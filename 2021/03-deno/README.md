@@ -124,3 +124,8 @@ C:\Users\yuyi\.deno\bin\file_server (shell)
 ### **rest api 应用**
 
 见 [`restt-api`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/rest-api) 文件夹
+
+### 标准库---二维码工具:
+
+[demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js)，运行`deno run --allow-write qrcode.js test`，会随机生成一个`qrcode.html`的二维码文件，`test`为试生成一随机二维码
+
