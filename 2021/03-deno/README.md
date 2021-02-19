@@ -31,7 +31,9 @@
 
     直接运行二进制文件，效率更高
 
-### **读取文件时命令行的可选参数：**
+### **运行文件时使用的中间件参数**
+
+**！！deno运行的文件如何涉及网络通讯、对文件的io操作等，都需要加入参数进行运行，否则报错无法运行：**
 
 | 安全参数 | 作用 |
 | --- | --- | 
@@ -106,7 +108,9 @@ C:\Users\yuyi\.deno\bin\file_server (shell)
 
 + 运行本地文件：`deno run <filename>.js`
 
-可以运行 `deno run dateTime.ts`
+可分别运行以下命令查看效果： 
+
+`deno run dateTime.ts`
 
 `deno run --allow-write createFile.ts`
 

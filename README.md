@@ -1,1 +1,1 @@
-learning some libs by some js simple projects
+my blog of tech
