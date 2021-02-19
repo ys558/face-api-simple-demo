@@ -22,10 +22,13 @@
     ```
 
 6. Built In Testing
+
+    直接集成了测试模块, 类似前端的BDD测试，基本的运行命令为 `deno test <filename>.test.js`
+
 7. Standard Library
 8. Browser Compatible API
 
-    直接使用例如`fetch`等API
+    直接使用浏览器的api例如`window`,`setTimeout`,`fetch`等API, 见[例子](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/browserApi.js)
 9. Morden JS
 10. Execute wasm binaries
 
@@ -120,4 +123,4 @@ C:\Users\yuyi\.deno\bin\file_server (shell)
 
 ### **rest api 应用**
 
-见 `restt-api` 文件夹
+见 [`restt-api`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/rest-api) 文件夹
