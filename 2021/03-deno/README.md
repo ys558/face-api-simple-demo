@@ -129,3 +129,15 @@ C:\Users\yuyi\.deno\bin\file_server (shell)
 
 [demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js)，运行`deno run --allow-write qrcode.js test`，会随机生成一个`qrcode.html`的二维码文件，`test`为试生成一随机二维码
 
+### 标准库---测试: 
+[demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js), 运行如下：
+
+```bash
+yuyi@dell-laptop MINGW64 ~/Documents/study/tech-blog-code/2021/03-deno (master)
+$ deno test testSample.test.js
+Check file:///C:/Users/yuyi/Documents/study/tech-blog-code/2021/03-deno/$deno$test.ts
+running 1 tests
+test Testing sum ... ok (3ms)
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out (6ms)
+```
