@@ -141,3 +141,49 @@ test Testing sum ... ok (3ms)
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out (6ms)
 ```
+
+### 项目缓存化机制 -- 重要！！！
+
+
+import导入模块时，可以发现url经常带着版本号，如：`import { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'`的`@0.87.0`，但如远程版本号更新，则会影响项目运行，解决这一问题需要将版本号锁定在缓存里, 以上一个测试小项目为例，如下操作：
+
+
+将我们原来的 [`testSample.test.js`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/testSample.test.js) 进行 import 模块化改造
+
+1. `testSample.test.js` 改写如下：
+```js
+import { sum } from './testSample.js'
+- import { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'
++ import { assertEquals } from './deps.js'
+
+Deno.test('Testing sum', () => {
+    assertEquals(sum(1,2), 3)
+})
+```
+
+2. `touch deps.js` 并写下：
+```js
+export { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'
+```
+
+3. 此时，运行`deno cache --lock=lock.json --lock-write testSample.test.js`，会生成`lock.json`文件，内容如下：
+```json
+{
+  "https://deno.land/std@0.87.0/fmt/colors.ts": "db22b314a2ae9430ae7460ce005e0a7130e23ae1c999157e3bb77cf55800f7e4",
+  "https://deno.land/std@0.87.0/testing/_diff.ts": "961eaf6d9f5b0a8556c9d835bbc6fa74f5addd7d3b02728ba7936ff93364f7a3",
+  "https://deno.land/std@0.87.0/testing/asserts.ts": "de942b2e1cb6dac1c1c4a7b698be017337e2e2cc2252ae0a6d215c5befde1e82"
+}
+```
+！该文件类似于npm的 `package-lock.json` 文件，将版本锁定在缓存里，后面一连串的值为hash值
+
+4. 运行缓存的模块，只需运行`deno cache --lock=lock.json sample.js` 即可，
+运行 `deno cache --reload --lock=lock.json testSample.test.js`, 类似于npm的 `npm ci`, 则会重新下载所有依赖, 如下图：
+
+```bash
+yuyi@dell-laptop MINGW64 ~/Documents/study/tech-blog-code/2021/03-deno (master)
+$ deno cache --reload --lock=lock.json testSample.test.js
+Download https://deno.land/std@0.87.0/testing/asserts.ts
+Download https://deno.land/std@0.87.0/fmt/colors.ts
+Download https://deno.land/std@0.87.0/testing/_diff.ts
+Check file:///C:/Users/yuyi/Documents/study/tech-blog-code/2021/03-deno/testSample.test.js
+```

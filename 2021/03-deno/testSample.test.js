@@ -1,6 +1,6 @@
 import { sum } from './testSample.js'
-import { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'
+import { assertEquals } from './deps.js'
 
 Deno.test('Testing sum', () => {
-    assertEquals(sum(1,2), 3)
+    assertEquals(sum(1,2), 5)
 })
