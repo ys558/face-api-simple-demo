@@ -9,14 +9,14 @@ const boxStyle = {
     textAlign: "center"
 }
 
-const toggleRightColor = (currentColor) => {
-    return currentColor === "green"? "yellow" : "green"
-}
 export const LeftBox = (props) => {
     const [leftColor, setLeftColor] = useRecoilState(leftColorState)
     const [rightColor, setRightColor] = useRecoilState(rightColorState)
     return (
-        <div style={{...boxStyle, backgroundColor: leftColor}} onClick={()=>{setRightColor(toggleRightColor(rightColor))}}>
+        <div 
+            style={{...boxStyle, backgroundColor: leftColor}} 
+            onClick={()=> setRightColor( rightColor => rightColor === "green"? "yellow" : "green" )}
+        >
             click me
         </div>
     );

@@ -8,14 +8,16 @@ const boxStyle = {
     fontSize: "50px",
     textAlign: "center"
 }
-const toggleLeftColor = (currentColor) => {
-    return currentColor === "red"? "purple" : "red"
-}
+
 export const RightBox = (props) => {
     const [leftColor, setLeftColor] = useRecoilState(leftColorState)
     const [rightColor, setRightColor] = useRecoilState(rightColorState)
     return (
-        <div style={{...boxStyle, backgroundColor: rightColor}} onClick={()=>setLeftColor(toggleLeftColor(leftColor))}>
+        <div 
+            style={{...boxStyle, backgroundColor: rightColor}}
+            // leftColor这里可以换个名字， 
+            onClick={()=> setLeftColor( leftColor => leftColor === "red"? "purple" : "red" )}
+        >
             click me
         </div>
     );
