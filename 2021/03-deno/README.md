@@ -51,7 +51,13 @@
 
 ### 常规实操：
 
-+ 安装见 [官网](https://deno.land/#runtime-documentation)
++ 安装 
+
+    我用window powershell, 运行以下命令, linux命令可见[官网](https://deno.land/#runtime-documentation)
+    ```shell
+    iwr https://deno.land/x/install/install.ps1 -useb | iex
+    ```
+    安装完成后，须要配置系统环境变量，将`C:\Users\<用户名>\.deno\bin`加入系统和用户环境变量
 
 + REPL, 安装完成后直接输入：`deno`可进入，如下：
 
@@ -79,9 +85,9 @@ $ curl https://deno.land/std@0.87.0/examples/welcome.ts
 console.log("Welcome to Deno!");
 ```
 
-+ 建立一个文件读取服务器：
++ 标准库的应用，建立一个文件读取服务器：
 
-方法1：直接运行标准库：
+方法1：直接运行标准库里的内容：
 
 `deno run --allow-net --allow-read https://deno.land/std@0.87.0/http/file_server.ts`
 
@@ -108,18 +114,21 @@ $ deno install https://deno.land/std@0.87.0/http/file_server.ts
 C:\Users\yuyi\.deno\bin\file_server.cmd
 C:\Users\yuyi\.deno\bin\file_server (shell)
 ```
+根据上面的提示，已经安装到deno的文件夹，可以打开deno所在的bin目录可以查看到:
+
+![deno install 到本地](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/deno-install.png)
 
 + 运行本地文件：`deno run <filename>.js`
 
 可分别运行以下命令查看效果： 
 
-`deno run dateTime.ts`
+`deno run 01-dateTime.ts` 终端打印出年份的序号
 
-`deno run --allow-write createFile.ts`
+`deno run --allow-write 02-createFile.ts` 生成 `02-greet.txt`文件
 
-`deno run --allow-read readFile.ts`
+`deno run --allow-read 03-readFile.ts` 终端打印出`02-greet.txt`里的内容
 
-`deno run --allow-net simpleServer.ts`
+`deno run --allow-net 04-simpleServer.ts` 可以运行一个简单的服务器，浏览器里打开`http://localhost:8000`可以访问对应服务
 
 ### **rest api 应用**
 
@@ -127,7 +136,7 @@ C:\Users\yuyi\.deno\bin\file_server (shell)
 
 ### 标准库---二维码工具:
 
-[demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js)，运行`deno run --allow-write qrcode.js test`，会随机生成一个`qrcode.html`的二维码文件，`test`为试生成一随机二维码
+[demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js)，运行`deno run --allow-write 05-qrcode.js test`，会随机生成一个`05-qrcode.html`的二维码文件，`test`为试生成一随机二维码
 
 ### 标准库---测试: 
 [demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js), 运行如下：
@@ -144,29 +153,28 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out (6ms)
 
 ### 项目缓存化机制 -- 重要！！！
 
-
 import导入模块时，可以发现url经常带着版本号，如：`import { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'`的`@0.87.0`，但如远程版本号更新，则会影响项目运行，解决这一问题需要将版本号锁定在缓存里, 以上一个测试小项目为例，如下操作：
 
 
 将我们原来的 [`testSample.test.js`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/testSample.test.js) 进行 import 模块化改造
 
-1. `testSample.test.js` 改写如下：
+1. `06-testSample.test.js` 改写如下：
 ```js
-import { sum } from './testSample.js'
+import { sum } from './06-testSample.js'
 - import { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'
-+ import { assertEquals } from './deps.js'
++ import { assertEquals } from './06-deps.js'
 
 Deno.test('Testing sum', () => {
     assertEquals(sum(1,2), 3)
 })
 ```
 
-2. `touch deps.js` 并写下：
+2. `touch 06-deps.js` 并写下：
 ```js
 export { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'
 ```
 
-3. 此时，运行`deno cache --lock=lock.json --lock-write testSample.test.js`，会生成`lock.json`文件，内容如下：
+3. 此时，运行`deno cache --lock=lock.json --lock-write 06-testSample.test.js`，会生成`lock.json`文件，内容如下：
 ```json
 {
   "https://deno.land/std@0.87.0/fmt/colors.ts": "db22b314a2ae9430ae7460ce005e0a7130e23ae1c999157e3bb77cf55800f7e4",
