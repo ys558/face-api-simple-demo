@@ -248,3 +248,47 @@ await app.listen({ port });
 ![创建表2](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/03-04-postgresql-createTable.png)
 
 ![创建表1](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/03-05-postgresql-createTable.png)
+
+6. 连接数据库，需要安装 [`denon`](http://deno.land/x/denon@2.4.7)，根据文档，先运行：
+
+    ```shell
+    deno install -qAf --unstable https://deno.land/x/denon/denon.ts
+    ```
+
+    安装成功后出现提示：
+    ```shell
+    yuyi@home-pc MINGW64 /e/study/code/tech-blog-code/2021/03-deno (master)
+    $ deno install -qAf --unstable https://deno.land/x/denon/denon.ts
+    Warning Implicitly using latest version (2.4.7) for http://deno.land/x/denon/denon.ts
+    ✅ Successfully installed denon
+    C:\Users\yuyi\.deno\bin\denon.cmd
+    C:\Users\yuyi\.deno\bin\denon (shell)
+    ```
+
+    6.1 初始化 denon 运行 `denon --init` 或 `denon -i` 生成 [`scripts.json`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/scripts.json) 文件, 修改该文件后运行 `denon start`, 可以看到运行如下：
+
+    ```shell
+    yuyi@home-pc MINGW64 /e/study/code/tech-blog-code/2021/03-deno/07-server (master)
+    $ denon start
+    [*] [main] v2.4.7
+    [*] [daem] watching path(s): **/*.*
+    [*] [daem] watching extensions: ts,tsx,js,jsx,json
+    [!] [#0] starting `deno run --allow-env --allow-net server.ts`
+    [&] [#0] starting process with pid 14228
+    [&] [daem] monitoring status of process with pid 14228
+    server running on port 5000
+    ```
+
+    6.2 修改`server.ts`的port参数如为活动的，如下：
+
+    ```ts
+    - const port = 5000;
+    + const port = Deno.env.get("PORT") || 5000;
+
+    - await app.listen({ port });
+    + await app.listen({ port: +port });
+    ```
+
+    如重新在 [`scripts.json`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/scripts.json) 文件里修改port参数，则能用回 scripts.json里的端口
+
+    6.3 [`config.ts`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/config.ts) 进行数据库配置, 并配置入controller里的`products.ts` 
