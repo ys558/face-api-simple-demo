@@ -74,22 +74,6 @@ interface TextNode {
 }
 const [count, setCount] = useState < number | TextNode >(5)
 ```
-如果要将`setCount`作为props进行传参，则需：
-```tsx
-interface Props {
-  children:(
-    count: number,
-    setCount: React.Dispatch<React.SetStateAction<number>>
-  ) => JSX.Element | null
-}
-
-export const Counter: React.FC<Props> = ({ children }) => {
-  const [count, setCount] = useState(0)
-  return <div>
-    {children(count, setCount)}
-  </div>
-}
-```
 
 ### `useRef` 的写法：
 ```tsx
@@ -133,3 +117,19 @@ const [todos, dispatch] = useReducer(TodoReducer, [])
 ```
 
 ## render props的ts写法：  
+将`setCount`作为props进行传参：
+```tsx
+interface Props {
+  children:(
+    count: number,
+    setCount: React.Dispatch<React.SetStateAction<number>>
+  ) => JSX.Element | null
+}
+
+export const Counter: React.FC<Props> = ({ children }) => {
+  const [count, setCount] = useState(0)
+  return <div>
+    {children(count, setCount)}
+  </div>
+}
+```
