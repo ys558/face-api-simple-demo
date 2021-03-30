@@ -36,7 +36,7 @@ console.log(Object.getOwnPropertySymbols(emperor1))
 // [ Symbol(prince) ]
 
 
-// @ 利用原有的[]键名选择器定义obj里的Symbol属性:
+// @ 利用原有的[]键名选择器定义obj里的Symbol属性 :
 const prince3 = Symbol('prince')
 let emperor2 = {
   prince: ['prince1', 'prince2', 'prince3'],
