@@ -1,6 +1,7 @@
 import React from 'react';
 import { UseStateUseRefTS } from './UseStateUseRefTS';
 import { RenderPropsTS } from './RenderPropsTS';
+import { ClassTS } from './ClassTS';
 
 const App: React.FC = () => {
   return <div>
@@ -16,6 +17,10 @@ const App: React.FC = () => {
           <button onClick={() => setCount( count + 1 )}>+</button>
         </div>)}
     </RenderPropsTS>
+    <hr/>
+    <ClassTS
+      text='hello world'
+    ></ClassTS>
   </div>
 }
 

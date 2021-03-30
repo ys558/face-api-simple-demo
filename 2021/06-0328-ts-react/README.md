@@ -10,7 +10,7 @@ create-react-app <app name> --template typescript
 yarn create react-app <app name> --template typescript
 ```
 
-### 在原有`create-react-app`基础上增加typescript内容：
+### 在原有JSX项目`create-react-app`基础上增加typescript内容：
 ```shell
 npm install --save typescript @types/node @types/react @types/react-dom @types/jest
  
@@ -18,16 +18,14 @@ npm install --save typescript @types/node @types/react @types/react-dom @types/j
  
 yarn add typescript @types/node @types/react @types/react-dom @types/jest
 ```
-## 基础元素：  
-
-### 指定函数或者类组件：
+## `*.d.ts`文件：
+外部`npm install`一个库时，需要单独创建一个`.d.ts`结尾的文件, 否则报错, 如：  
+`touch lib.d.ts`:
 ```tsx
-React.FC
-# or
-React.CElement
-```  
-
-## props的tsx写法：
+declare module 'lodash'
+```
+## props的tsx写法：  
+Function 组件：  
 ```tsx
 export const TextField: React.FC<{ text: string }> = () => {
   return <div><input type="text"/></div>
@@ -60,6 +58,37 @@ interface Props {
 }
 ```
 
+Class组件：  
+```tsx
+// <> 里为props的类型
+export class ClassTS  extends Component <{text: string, age?: number}> {
+  render() {
+    return <div></div>
+  }
+}
+
+// 或将其独立为interface:
+interface IProps {
+  text: string
+  age?: number
+}
+interface IState {
+  email: string
+  name: string
+}
+
+export class ClassTS  extends Component <IProps> {
+  // 当然，state也可以如法炮制：IState
+  state: IState = {
+    name: '',
+    email: ''
+  }
+  render() {
+    return <div></div>
+  }
+}
+
+```
 
 ## hooks的ts写法：
 ### `useState` 的写法： 
