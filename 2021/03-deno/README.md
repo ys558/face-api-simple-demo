@@ -1,10 +1,12 @@
 # deno 初探
 
-### **deno是什么？**
+## **deno是什么？**
+---
 
 用Rust编程，基于V8引擎，一种原生支持JS或TS的运行时
 
-### **特征：**
+## **特征：**
+---
 
 1. Use JS / TS 
 2. ES Modules
@@ -34,7 +36,8 @@
 
     直接运行二进制文件，效率更高
 
-### **运行文件时使用的中间件参数**
+## **运行文件时使用的中间件参数**
+---
 
 **！！deno运行的文件如何涉及网络通讯、对文件的io操作等，都需要加入参数进行运行，否则报错无法运行：**
 
@@ -49,9 +52,16 @@
 | `--allow-run` | 运行 |
 | `-A` | 所有权限 |
 
-### 常规实操：
+## 常规实操：
+---
 
-+ 安装见 [官网](https://deno.land/#runtime-documentation)
++ 安装 
+
+    我用window powershell, 运行以下命令, linux命令可见[官网](https://deno.land/#runtime-documentation)
+    ```shell
+    iwr https://deno.land/x/install/install.ps1 -useb | iex
+    ```
+    安装完成后，须要配置系统环境变量，将`C:\Users\<用户名>\.deno\bin`加入系统和用户环境变量
 
 + REPL, 安装完成后直接输入：`deno`可进入，如下：
 
@@ -79,9 +89,9 @@ $ curl https://deno.land/std@0.87.0/examples/welcome.ts
 console.log("Welcome to Deno!");
 ```
 
-+ 建立一个文件读取服务器：
++ 标准库的应用，建立一个文件读取服务器：
 
-方法1：直接运行标准库：
+方法1：直接运行标准库里的内容：
 
 `deno run --allow-net --allow-read https://deno.land/std@0.87.0/http/file_server.ts`
 
@@ -108,28 +118,27 @@ $ deno install https://deno.land/std@0.87.0/http/file_server.ts
 C:\Users\yuyi\.deno\bin\file_server.cmd
 C:\Users\yuyi\.deno\bin\file_server (shell)
 ```
+根据上面的提示，已经安装到deno的文件夹，可以打开deno所在的bin目录可以查看到:
+
+![deno install 到本地](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/deno-install.png)
 
 + 运行本地文件：`deno run <filename>.js`
 
 可分别运行以下命令查看效果： 
 
-`deno run dateTime.ts`
+`deno run 01-dateTime.ts` 终端打印出年份的序号
 
-`deno run --allow-write createFile.ts`
+`deno run --allow-write 02-createFile.ts` 生成 `02-greet.txt`文件
 
-`deno run --allow-read readFile.ts`
+`deno run --allow-read 03-readFile.ts` 终端打印出`02-greet.txt`里的内容
 
-`deno run --allow-net simpleServer.ts`
+`deno run --allow-net 04-simpleServer.ts` 可以运行一个简单的服务器，浏览器里打开`http://localhost:8000`可以访问对应服务
+## 标准库---二维码工具:
+---
+[demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js)，运行`deno run --allow-write 05-qrcode.js test`，会随机生成一个`05-qrcode.html`的二维码文件，`test`为试生成一随机二维码
 
-### **rest api 应用**
-
-见 [`restt-api`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/rest-api) 文件夹
-
-### 标准库---二维码工具:
-
-[demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js)，运行`deno run --allow-write qrcode.js test`，会随机生成一个`qrcode.html`的二维码文件，`test`为试生成一随机二维码
-
-### 标准库---测试: 
+## 标准库---测试: 
+---
 [demo](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/qrcode.js), 运行如下：
 
 ```bash
@@ -142,31 +151,31 @@ test Testing sum ... ok (3ms)
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out (6ms)
 ```
 
-### 项目缓存化机制 -- 重要！！！
-
+## 项目缓存化机制 -- 重要！！！
+---
 
 import导入模块时，可以发现url经常带着版本号，如：`import { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'`的`@0.87.0`，但如远程版本号更新，则会影响项目运行，解决这一问题需要将版本号锁定在缓存里, 以上一个测试小项目为例，如下操作：
 
 
 将我们原来的 [`testSample.test.js`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/testSample.test.js) 进行 import 模块化改造
 
-1. `testSample.test.js` 改写如下：
+1. `06-testSample.test.js` 改写如下：
 ```js
-import { sum } from './testSample.js'
+import { sum } from './06-testSample.js'
 - import { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'
-+ import { assertEquals } from './deps.js'
++ import { assertEquals } from './06-deps.js'
 
 Deno.test('Testing sum', () => {
     assertEquals(sum(1,2), 3)
 })
 ```
 
-2. `touch deps.js` 并写下：
+2. `touch 06-deps.js` 并写下：
 ```js
 export { assertEquals } from 'https://deno.land/std@0.87.0/testing/asserts.ts'
 ```
 
-3. 此时，运行`deno cache --lock=lock.json --lock-write testSample.test.js`，会生成`lock.json`文件，内容如下：
+3. 此时，运行`deno cache --lock=lock.json --lock-write 06-testSample.test.js`，会生成`lock.json`文件，内容如下：
 ```json
 {
   "https://deno.land/std@0.87.0/fmt/colors.ts": "db22b314a2ae9430ae7460ce005e0a7130e23ae1c999157e3bb77cf55800f7e4",
@@ -187,3 +196,99 @@ Download https://deno.land/std@0.87.0/fmt/colors.ts
 Download https://deno.land/std@0.87.0/testing/_diff.ts
 Check file:///C:/Users/yuyi/Documents/study/tech-blog-code/2021/03-deno/testSample.test.js
 ```
+## **网络操作**
+---
+
+总体上和node差不多，只是语法上有些许不同
+
+1. 创建一个最简单的服务器： 
+
+```ts
+import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+const port = 5000;
+
+const app = new Application();
+
+/*
+如果不加router功能，终端会报错如下：
+error: Uncaught TypeError: There is no middleware to process requests.
+       throw new TypeError("There is no middleware to process requests.");
+*/  
+const router = new Router()
+app.use(router.routes())
+app.use(router.allowedMethods());
+router.get('/api/v1/products', ({response}: {response: any})=> {
+    response.body = 'hello world'
+})
+
+console.log(`server running on port ${port}`);
+
+await app.listen({ port });
+```
+
+终端运行`deno run --allow-net server.ts`, 即可跑起服务，浏览器输入`http://localhost:5000/api/v1/products`即可看见页面出现hello world
+
+2. 将`router`独立模块化出来[`route.ts`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/route.ts), 同时[`server.ts`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/server.ts)也需做改动再重新运行
+
+3. 定义controller层面：创建[`types.ts`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/types.ts) 定义接口类型，创建 [`products.ts`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/controller/products.ts) 定义数据和一些接口
+
+4. 测试是否成功，这里不用浏览器或postman, 直接用vs code自带的http client功能，创建[`types.ts`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/test.http)`即可检测所写的接口是否返回符合预期
+
+5. 数据持久化，这里用到[`postgresql`](https://www.enterprisedb.com/postgresql-tutorial-resources-training?cid=437), 操作及[安装方法](https://www.runoob.com/postgresql/windows-install-postgresql.html)，windows平台安装完成后，postgresql有自带图形化操作界面，会弹出一网页，省去命令行操作的麻烦，
+
+    5.1 下面是按照图像界面一些基础操作：
+
+![创建用户](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/03-01-postgresql-createNewUser.png)
+    
+    
+![创建数据库](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/03-02-postgresql-createNewDatabase-1.png)
+
+![打开该数据库所有权限](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/03-03-postgresql-privileges.png)
+
+![创建表2](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/03-04-postgresql-createTable.png)
+
+![创建表1](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/img/03-05-postgresql-createTable.png)
+
+6. 连接数据库，需要安装 [`denon`](http://deno.land/x/denon@2.4.7)，根据文档，先运行：
+
+    ```shell
+    deno install -qAf --unstable https://deno.land/x/denon/denon.ts
+    ```
+
+    安装成功后出现提示：
+    ```shell
+    yuyi@home-pc MINGW64 /e/study/code/tech-blog-code/2021/03-deno (master)
+    $ deno install -qAf --unstable https://deno.land/x/denon/denon.ts
+    Warning Implicitly using latest version (2.4.7) for http://deno.land/x/denon/denon.ts
+    ✅ Successfully installed denon
+    C:\Users\yuyi\.deno\bin\denon.cmd
+    C:\Users\yuyi\.deno\bin\denon (shell)
+    ```
+
+    6.1 初始化 denon 运行 `denon --init` 或 `denon -i` 生成 [`scripts.json`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/scripts.json) 文件, 修改该文件后运行 `denon start`, 可以看到运行如下：
+
+    ```shell
+    yuyi@home-pc MINGW64 /e/study/code/tech-blog-code/2021/03-deno/07-server (master)
+    $ denon start
+    [*] [main] v2.4.7
+    [*] [daem] watching path(s): **/*.*
+    [*] [daem] watching extensions: ts,tsx,js,jsx,json
+    [!] [#0] starting `deno run --allow-env --allow-net server.ts`
+    [&] [#0] starting process with pid 14228
+    [&] [daem] monitoring status of process with pid 14228
+    server running on port 5000
+    ```
+
+    6.2 修改`server.ts`的port参数如为活动的，如下：
+
+    ```ts
+    - const port = 5000;
+    + const port = Deno.env.get("PORT") || 5000;
+
+    - await app.listen({ port });
+    + await app.listen({ port: +port });
+    ```
+
+    如重新在 [`scripts.json`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/scripts.json) 文件里修改port参数，则能用回 scripts.json里的端口
+
+    6.3 [`config.ts`](https://github.com/ys558/tech-blog-code/tree/master/2021/03-deno/07-server/config.ts) 进行数据库配置, 并配置入controller里的`products.ts` 
