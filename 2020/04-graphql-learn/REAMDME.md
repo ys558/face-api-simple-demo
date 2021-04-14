@@ -14,7 +14,7 @@
       message
     }
     ```
-    ![graphql](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/1.2.png)
+    ![graphql](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/1.2.png)
 
 2. run the 02base.js and input the query sentence as below,  query syntax of graphql is a little bit similar to json but much easier than json. there is no need with "" , ',' and value in it:
     ```js
@@ -25,7 +25,7 @@
       }
     }
     ```
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/2.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/2.png)
 
 3. run the 03listQuery.js, in this file we may query book by authorId and query author by book's id (书名id和作者id互查)
     
@@ -45,7 +45,7 @@
     }
     ```
     
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/3.3.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/3.3.png)
 
     ```js
     {
@@ -57,7 +57,7 @@
       }
     }
     ```
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/3.2.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/3.2.png)
 
 4. 04singleQuery.js, query one book by book id (by params, as below type) and its author
     ```js
@@ -70,7 +70,7 @@
       }
     }
     ```
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/4.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/4.png)
 
     4.1 query one author by author id,
     ```js
@@ -91,7 +91,7 @@
       }
     }
     ```
-    ![](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/4.2.png)
+    ![](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/4.2.png)
 
     4.2 query all books with author name
     ```js
@@ -104,7 +104,7 @@
       }
     }
     ```
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/4.1.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/4.1.png)
     
     and also query all authors with their all books' name
     ```js
@@ -117,7 +117,7 @@
       }
     }
     ```
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/4.1.1.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/4.1.1.png)
     
 5. mutationType, change record on POST, DELETE, PUT etc method to change record by rest api
   
@@ -130,10 +130,10 @@
     ```
     click the 'Docs' on query page, we may see 2 mutation functions as below: 
 
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/5.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/5.png)
 
     query the books, the record was added:
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/5.4.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/5.4.png)
 
 
     and input the query sentence on query page:
@@ -147,7 +147,7 @@
     ```
     and the results:
 
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/5.1.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/5.1.png)
 
     same process as changing author:
     ```js
@@ -158,9 +158,9 @@
     }
     ```
     results:
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/5.2.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/5.2.png)
 
     we may query authors, the record was added
-    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/2020/master/04-graphql-learn/img-MD/5.3.png)
+    ![simple query sentence](https://raw.githubusercontent.com/ys558/tech-blog-code/master/2020/04-graphql-learn/img-MD/5.3.png)
 
 
