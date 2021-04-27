@@ -8,7 +8,7 @@ const booksRouter  = require("./routes/books");
 const swaggerUI  = require("swagger-ui-express");
 const swaggerJsDoc  = require("swagger-jsdoc");
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 5000
 
 const FileSync = require("lowdb/adapters/FileSync")
 
@@ -25,7 +25,7 @@ const options = {
       version: "1.0.0",
       description: "A simple Express Library API"
     },
-    servers: [{ url: "http://localhost:4000"}],
+    servers: [{ url: "http://localhost:5000"}],
   },
   apis: ["./routes/*.js"]
 }
