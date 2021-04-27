@@ -2,5 +2,5 @@
 
 先安装如下插件`Git Graph`，可以查看git的工作流
 
-![Git Graph](https://github.com/ys558/tech-blog-code/tree/master/10-git-learn/img/01.png)
+![Git Graph](https://github.com/ys558/tech-blog-code/blob/master/10-git-learn/img/01.png)
 

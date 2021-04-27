@@ -213,7 +213,7 @@ router.get('/', (req, res) => {
 })
 ```
 
-其余API的swagger配置见[`books.js`](https://github.com/ys558/tech-blog-code/tree/master/08-react-query/server/routes/books.js)
+其余API的swagger配置见[`books.js`](https://github.com/ys558/tech-blog-code/blob/master/08-react-query/server/routes/books.js)
 
 ## client模块:
 
@@ -275,7 +275,7 @@ export const getAllBooks = async () => {
 REACT_APP_API_SERVER = http://localhost:4000
 ```
 
-制作通用组件导航栏[`src/shared/NavBar.jsx`](https://github.com/ys558/tech-blog-code/tree/master/08-react-query/client/src/shared/NavBar.jsx), 并封装一通用组件[`src/shared/Container.jsx`](https://github.com/ys558/tech-blog-code/tree/master/08-react-query/client/src/shared/Container.jsx), 非核心代码, 这里不贴出
+制作通用组件导航栏[`src/shared/NavBar.jsx`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/shared/NavBar.jsx), 并封装一通用组件[`src/shared/Container.jsx`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/shared/Container.jsx), 非核心代码, 这里不贴出
 
 创建`src/BookList/index.js`和`src/BookList/BookList.jsx`, 如下:
 
@@ -340,9 +340,9 @@ function App() {
 export default App;
 ```
 
-当然, 其余的模块[`CreateBook`](https://github.com/ys558/tech-blog-code/tree/master/08-react-query/client/src/CreateBook/), [`UpdateBook`](https://github.com/ys558/tech-blog-code/tree/master/08-react-query/client/src/UpdateBook/)也是同样重复上述操作再导入`App.js`里
+当然, 其余的模块[`CreateBook`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/CreateBook/CreateBook.jsx), [`UpdateBook`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/UpdateBook/UpdateBook.jsx)也是同样重复上述操作再导入`App.js`里
 
-修改每个条目的样式, 创建[`src/BookList/BookItem.jsx`](https://github.com/ys558/tech-blog-code/tree/master/08-react-query/client/src/BookList/BookItem.jsx), 并在[`src/BookList/BookList.jsx`](https://github.com/ys558/tech-blog-code/tree/master/08-react-query/client/src/BookList/BookList.jsx) 里将
+修改每个条目的样式, 创建[`src/BookList/BookItem.jsx`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/BookList/BookItem.jsx), 并在[`src/BookList/BookList.jsx`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/BookList/BookList.jsx) 里将
 
 ```html
 <div key={id}>

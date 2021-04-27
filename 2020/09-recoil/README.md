@@ -39,7 +39,7 @@ export const rightColorState = atom({
 ```
 
 
-分别创建两个 Components : [`components/LeftBox.jsx`](https://github.com/ys558/tech-blog-code/tree/master/09-recoil/src/components/LeftBox.jsx) 和 [`components/RightBox.jsx`](https://github.com/ys558/tech-blog-code/tree/master/09-recoil/src/components/RightBox.jsx)
+分别创建两个 Components : [`components/LeftBox.jsx`](https://github.com/ys558/tech-blog-code/blob/master/09-recoil/src/components/LeftBox.jsx) 和 [`components/RightBox.jsx`](https://github.com/ys558/tech-blog-code/blob/master/09-recoil/src/components/RightBox.jsx)
 
 改写`src/App.js`, 整体项目结构是, 点击左边方块让右边变色; 点击右边方块, 让左边变色, 用App.js包着, 利用Recoil里的atom将state独立出去管理, 不再由父组件管理状态:
 
