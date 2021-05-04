@@ -24,7 +24,7 @@ export class ClassTS extends Component <IProps> {
     })
   }
 
-  public render() {
+  public render() : React.ReactNode {
     const { text } = this.props
     const { name } = this.state
     return <div>

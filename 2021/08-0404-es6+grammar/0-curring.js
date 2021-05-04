@@ -88,3 +88,39 @@ const curring = name => el => el[name]
 console.log(nameList1.map(curring('mid'))) // [ '沙皇', '哈傻k', '卡牌', '发条' ]
 console.log(nameList2.map(curring('adc'))) // [ '轮子妈', 'VN', '老鼠' ]
 
+
+// 写法2：
+const curry = (fn, len = fn.length) => currySelf.call(this, fn, len)
+
+const currySelf = (fn,len,...args) => (...params) => {
+  const _args = [...args,...params];
+  console.log(_args)
+  if(_args.length >= len){
+      return fn.apply(this, _args);
+  }else{
+      return currySelf.call(this, fn, len, ..._args)
+  }
+}
+
+const _fn = curry((a,b,c,d,e) => console.log(a + b + c + d + e));
+
+_fn(1,2,3,4,5);
+// [ 1, 2, 3, 4, 5 ]
+// 15
+_fn(1)(2)(3,4,5);
+// [ 1 ]
+// [ 1, 2 ]
+// [ 1, 2, 3, 4, 5 ]
+// 15
+_fn(1,2)(3,4)(5);  
+// [ 1, 2 ]
+// [ 1, 2, 3, 4 ]
+// [ 1, 2, 3, 4, 5 ]
+// 15
+_fn(1)(2)(3)(4)(5);
+// [ 1 ]
+// [ 1, 2 ]
+// [ 1, 2, 3 ]
+// [ 1, 2, 3, 4 ]
+// [ 1, 2, 3, 4, 5 ]
+// 15

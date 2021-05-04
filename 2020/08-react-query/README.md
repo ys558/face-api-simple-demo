@@ -228,7 +228,7 @@ npx create-react-app client && cd client
 
 安装依赖并运行: 
 ```shell
-yarn add react-query react-router-dom react-hook-form @rebass/forms @rebass/preset styled-components react-loader-spinner
+yarn add react-query react-router-dom react-loader-spinner rebass react-hook-form @rebass/forms @rebass/preset styled-components 
 yarn start
 ```
 
@@ -275,7 +275,7 @@ export const getAllBooks = async () => {
 REACT_APP_API_SERVER = http://localhost:4000
 ```
 
-制作通用组件导航栏[`src/shared/NavBar.jsx`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/shared/NavBar.jsx), 并封装一通用组件[`src/shared/Container.jsx`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/shared/Container.jsx), 非核心代码, 这里不贴出
+制作通用组件导航栏[`src/shared/NavBar.jsx`](https://github.com/ys558/tech-blog-code/tree/master/2020/08-react-query/client/src/shared/NavBar.jsx), 并封装一通用组件[`src/shared/Container.jsx`](https://github.com/ys558/tech-blog-code/blob/master/2020/08-react-query/client/src/shared/Container.jsx), 非核心代码, 这里不贴出
 
 创建`src/BookList/index.js`和`src/BookList/BookList.jsx`, 如下:
 
